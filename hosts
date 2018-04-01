@@ -1,2 +1,2 @@
 [main]
-build-server1
+build-server1 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
