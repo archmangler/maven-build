@@ -21,9 +21,9 @@
     - name: Compress the exhibitor jar file on build server before copying it down
       archive:
         path: /opt/maven/target/exhibitor-1.6.0.jar
-        dest: /opt/maven/target/exhibitor-1.6.0.jar.tgz
+        dest: /opt/maven/target/exhibitor-1.6.0.jar.gz
     - name: Copy the compressed exhibitor jar file down to the files directory
       fetch:
-        src: /opt/maven/target/exhibitor-1.6.0.jar.tgz
+        src: /opt/maven/target/exhibitor-1.6.0.jar.gz
         dest: files/
         flat: yes
