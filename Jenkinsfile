@@ -11,6 +11,7 @@ pipeline {
                     rm -rf maven-build
                     git clone git@github.com:archmangler/maven-build.git
                     cd maven-build
+                    mkdir -p files/ 
                     virtualenv .env
                     source .env/bin/activate
                     pip install 'ansible==2.4.0.0'
