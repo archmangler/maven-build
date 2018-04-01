@@ -18,8 +18,12 @@
         mode: 0440
     - name: Execute the maven build command in the build directory
       command: chdir=/opt/maven mvn clean package
-    - name: Copy the exhibitor jar file down to the files directory
+    - name: Compress the exhibitor jar file on build server before copying it down
+      archive:
+        path: /opt/maven/target/exhibitor-1.6.0.jar
+        dest: /opt/maven/target/exhibitor-1.6.0.jar.tgz
+    - name: Copy the compressed exhibitor jar file down to the files directory
       fetch:
-        src: /opt/maven/target/exhibitor-1.6.0.jar
+        src: /opt/maven/target/exhibitor-1.6.0.jar.tgz
         dest: files/
         flat: yes
