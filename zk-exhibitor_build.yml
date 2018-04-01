@@ -1,0 +1,25 @@
+---
+#Playbook to build exhibitor on pre-existing zookeeper: https://github.com/soabase/exhibitor
+#recommended to build on only one designated server in a group:  ansible-playbook --diff -vv -i <build_hostname>,  exhibitor_build.yml 
+#NOTE: Specifically reference exhibitor-1.6.0 until any other version is required
+- hosts: main
+  become: True
+  tasks:
+    - name: Install maven (required to build exhibitor jar)
+      apt: name=maven state=present
+    - name: Create the maven build directory 
+      file:
+        path: /opt/maven
+        state: directory
+    - name: Download the pom.xml for exhibitor
+      get_url:
+        url: https://raw.github.com/Netflix/exhibitor/master/exhibitor-standalone/src/main/resources/buildscripts/standalone/maven/pom.xml
+        dest: /opt/maven/pom.xml
+        mode: 0440
+    - name: Execute the maven build command in the build directory
+      command: chdir=/opt/maven mvn clean package
+    - name: Copy the exhibitor jar file down to the files directory
+      fetch:
+        src: /opt/maven/target/exhibitor-1.6.0.jar
+        dest: files/
+        flat: yes
